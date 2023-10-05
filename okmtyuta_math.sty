@@ -1,0 +1,128 @@
+% third party packages
+\usepackage[top=20truemm,bottom=25truemm,left=25truemm,right=25truemm]{geometry}
+\usepackage[dvipdfmx]{graphicx, xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{ascmac}
+\usepackage{bm}
+\usepackage{braket}
+\usepackage{emath}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{ifthen}
+\usepackage{mathrsfs}
+\usepackage{mathtools}
+\usepackage{tikz-cd}
+\usepackage{multicol}
+\usepackage[dvipdfmx]{hyperref}
+\usepackage{pxjahyper}
+\hypersetup{
+  setpagesize=false,
+  bookmarksnumbered=true,
+  bookmarksopen=true,
+  colorlinks=true,
+  allcolors=black,
+}
+
+\newtagform{bracket}[\textbf]{\textbf{(}}{\textbf{)}}
+\usetagform{bracket}
+
+% redefine numbering way
+\resettagform
+
+% 証明環境
+\theoremstyle{definition}
+\newtheorem{dfn}{Def}[section]
+
+\newtheorem*{ans*}{Ans}
+\newtheorem{ans}[dfn]{Ans}
+\newtheorem{cor}[dfn]{Cor}
+\newtheorem{eg}[dfn]{e.g.}
+\newtheorem{ex}[dfn]{Exercise}
+\newtheorem{fact}[dfn]{Fact}
+\newtheorem{lem}[dfn]{Lem}
+\newtheorem{memo}[dfn]{Memo}
+\newtheorem{prop}[dfn]{Prop}
+\newtheorem{que}[dfn]{Question}
+\newtheorem{rem}[dfn]{Rem}
+\newtheorem{thm}[dfn]{Thm}
+\newtheorem*{ref*}{Ref}
+
+% 参照ref
+\newcommand{\corref}[1]{\textbf{Cor \ref{#1}}}
+\newcommand{\dfnref}[1]{\textbf{Def \ref{#1}}}
+\newcommand{\egref}[1]{\textbf{Example \ref{#1}}}
+\newcommand{\exref}[1]{\textbf{Exercise \ref{#1}}}
+\newcommand{\factref}[1]{\textbf{Fact \ref{#1}}}
+\newcommand{\lemref}[1]{\textbf{Lem \ref{#1}}}
+\newcommand{\memoref}[1]{\textbf{Memo \ref{#1}}}
+\newcommand{\propref}[1]{\textbf{Prop \ref{#1}}}
+\newcommand{\queref}[1]{\textbf{Question \ref{#1}}}
+\newcommand{\remref}[1]{\textbf{Rem \ref{#1}}}
+\newcommand{\thmref}[1]{\textbf{Thm \ref{#1}}}
+\newcommand{\equref}[1]{\textbf{Eq \ref{#1}}}
+\newcommand{\siref}[1]{\textbf{(\ref{#1})}}
+
+\newcommand{\mcomma}{,\ }
+\newcommand{\dsum}{\displaystyle\sum}
+\newcommand{\digcup}{\displaystyle\bigcup}
+\newcommand{\digcap}{\displaystyle\bigcap}
+\newcommand{\doprod}{\displaystyle\coprod}
+\newcommand{\dprod}{\displaystyle\prod}
+\newcommand{\dnt}{\displaystyle\int}
+\newcommand{\dsqcup}{\displaystyle\bigsqcup}
+
+\newcommand{\kakko}[1]{
+  \left( #1 \right)
+}
+\newcommand{\mkakko}[1]{
+  \left\{ #1 \right\}
+}
+\newcommand{\bkakko}[1]{
+  \left[ #1 \right]
+}
+\newcommand{\abs}[1]{
+  \left| #1 \right|
+}
+\newcommand{\norm}[1]{
+  \left|\left| #1 \right|\right|
+}
+
+\newcommand{\Res}{\mathrm{Res}}
+\newcommand{\re}{\mathrm{Re}}
+\newcommand{\im}{\mathrm{Im}}
+\newcommand{\Ker}{\mathrm{Ker}}
+\newcommand{\Aut}{\mathrm{Aut}}
+\newcommand{\Inn}{\mathrm{Inn}}
+\newcommand{\Out}{\mathrm{Out}}
+\newcommand{\st}{\mathrm{\ s.t.\ }}
+\newcommand{\id}[1]{\mathrm{id}_{#1}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\amp}{\ \mathrm{and} \ }
+\newcommand{\opensubset}{\stackrel{\mathrm{open}}{\subset}}
+\newcommand{\closesubset}{\stackrel{\mathrm{close}}{\subset}}
+\newcommand{\diffeo}{\stackrel{\cong}{\to}}
+\newcommand{\homeo}{\stackrel{\approx }{\to}}
+\newcommand{\sgn}{\mathrm{sgn}}
+
+\newcommand{\diff}[3][1]{
+  \ifthenelse{\equal{#1}{1}}{
+    \bunsuu{d #2}{d #3}
+  }{
+    \bunsuu{d^#1 #2}{d #3^#1}
+  }
+}
+\newcommand{\pdiff}[3][1]{
+  \ifthenelse{\equal{#1}{1}}{
+    \bunsuu{\partial #2}{\partial #3}
+  }{
+    \bunsuu{\partial^#1 #2}{\partial #3^#1}
+  }
+}
+
+\newcommand{\case}[1]{
+  \begin{dcases}
+    #1
+  \end{dcases}
+}
