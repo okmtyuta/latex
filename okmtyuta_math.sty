@@ -25,7 +25,7 @@
   allcolors=black,
 }
 
-\newtagform{bracket}[\textbf]{\textbf{(}}{\textbf{)}}
+\newtagform{bracket}{(}{)}
 \usetagform{bracket}
 
 % redefine numbering way
@@ -62,9 +62,7 @@
 \newcommand{\remref}[1]{\textbf{Rem \ref{#1}}}
 \newcommand{\thmref}[1]{\textbf{Thm \ref{#1}}}
 \newcommand{\equref}[1]{\textbf{Eq \ref{#1}}}
-\newcommand{\siref}[1]{\textbf{(\ref{#1})}}
 
-\newcommand{\mcomma}{,\ }
 \newcommand{\dsum}{\displaystyle\sum}
 \newcommand{\digcup}{\displaystyle\bigcup}
 \newcommand{\digcap}{\displaystyle\bigcap}
@@ -88,23 +86,6 @@
 \newcommand{\norm}[1]{
   \left|\left| #1 \right|\right|
 }
-
-\newcommand{\Res}{\mathrm{Res}}
-\newcommand{\re}{\mathrm{Re}}
-\newcommand{\im}{\mathrm{Im}}
-\newcommand{\Ker}{\mathrm{Ker}}
-\newcommand{\Aut}{\mathrm{Aut}}
-\newcommand{\Inn}{\mathrm{Inn}}
-\newcommand{\Out}{\mathrm{Out}}
-\newcommand{\st}{\mathrm{\ s.t.\ }}
-\newcommand{\id}[1]{\mathrm{id}_{#1}}
-\newcommand{\rank}{\mathrm{rank}}
-\newcommand{\amp}{\ \mathrm{and} \ }
-\newcommand{\opensubset}{\stackrel{\mathrm{open}}{\subset}}
-\newcommand{\closesubset}{\stackrel{\mathrm{close}}{\subset}}
-\newcommand{\diffeo}{\stackrel{\cong}{\to}}
-\newcommand{\homeo}{\stackrel{\approx }{\to}}
-\newcommand{\sgn}{\mathrm{sgn}}
 
 \newcommand{\diff}[3][1]{
   \ifthenelse{\equal{#1}{1}}{
