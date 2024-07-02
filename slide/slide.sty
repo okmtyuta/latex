@@ -1,10 +1,12 @@
+\ProvidesPackage{slide} 
+
 \usepackage{
   bxdpx-beamer, pxjahyper, minijs,
   mathtools, multicol, graphicx,
-  ifthen, xparse
+  ifthen, xparse, kvoptions
 }
 \usepackage{
-  _color, _proof_env_report
+  _shared, _proof_env_report
 }
 
 \setbeamertemplate{theorems}[numbered]
@@ -13,10 +15,10 @@
 \usetheme{Boadilla}
 \usefonttheme[onlymath]{serif}
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{footline}[page number]
+\setbeamertemplate{footline}{}
+% \setbeamerfont{footline}[page number]{size=\fontsize{9}{11},family=\ttfamily}
 \setbeamertemplate{blocks}[rounded]
 \setbeamertemplate{itemize items}[circle]
-\setbeamerfont{footline}{size=\fontsize{9}{11},family=\ttfamily}
 \setbeamerfont{frametitle}{size=\large}
 \setbeamercolor{structure}{fg=ublue}
 \setbeamercolor{alerted text}{fg=ured}
@@ -45,3 +47,20 @@
 
 
 \renewcommand{\baselinestretch}{1.3}
+
+\DeclareStringOption[]{footer}
+\setbeamertemplate{footline}[text line]{
+  \parbox{0.8\linewidth}{
+    \begin{flushleft}
+      \slide@footer
+    \end{flushleft}
+  }
+
+  \parbox{0.2\linewidth}{
+    \begin{flushright}
+      \insertframenumber/\inserttotalframenumber
+    \end{flushright}
+  }
+}
+
+\ProcessKeyvalOptions{footer}
