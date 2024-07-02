@@ -1,12 +1,13 @@
-\usepackage{bxdpx-beamer}
-\usepackage{pxjahyper}
-\usepackage{minijs}
-\usepackage{mathtools}
-\usepackage{_color}
-\usepackage{_slide_proof_env}
-\usepackage{multicol}
-\usepackage{graphicx}
+\usepackage{
+  bxdpx-beamer, pxjahyper, minijs,
+  mathtools, multicol, graphicx,
+  ifthen, xparse
+}
+\usepackage{
+  _color, _proof_env_report
+}
 
+\setbeamertemplate{theorems}[numbered]
 \renewcommand{\kanjifamilydefault}{\gtdefault}
 
 \usetheme{Boadilla}
@@ -14,12 +15,33 @@
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[page number]
 \setbeamertemplate{blocks}[rounded]
-\setbeamertemplate{frametitle}{\vspace{3mm}\thesection. \insertframetitle}
 \setbeamertemplate{itemize items}[circle]
 \setbeamerfont{footline}{size=\fontsize{9}{11},family=\ttfamily}
 \setbeamerfont{frametitle}{size=\large}
 \setbeamercolor{structure}{fg=ublue}
 \setbeamercolor{alerted text}{fg=ured}
 \setbeamercolor{example text}{fg=ugreen}
+
+\setbeamertemplate{frametitle}{
+  \ifthenelse{\value{subsection} = 0}{
+    \vspace{3mm}\thesection. \insertframetitle
+  }{
+    \vspace{3mm}\thesection.\thesubsection. \insertframetitle
+  }
+}
+
+\NewDocumentCommand\framesection{s m}{
+  {
+    \IfBooleanF{#1}{\stepcounter{section}\frametitle{#2}}
+    \IfBooleanT{#1}{\frametitle{#2}}
+  }
+}
+\NewDocumentCommand\framesubsection{s m}{
+  {
+    \IfBooleanF{#1}{\stepcounter{subsection}\frametitle{#2}}
+    \IfBooleanT{#1}{\frametitle{#2}}
+  }
+}
+
 
 \renewcommand{\baselinestretch}{1.3}
