@@ -1,0 +1,206 @@
+\documentclass[dvipdfmx,11pt,notheorems]{article}
+\usepackage{summary}
+
+\title{Brief summary of Topological Persistence and Simplification}
+\author{OKAMOTO Yuta}
+\date{\today}
+
+\makeatletter
+
+\fancypagestyle{style}{
+  \lhead{\@title}
+  \rhead{\oldstylenums{\thepage/\protect\pageref*{LastPage}}}
+  \cfoot{}
+  \lfoot{\@author, \@date}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
+\pagestyle{style}
+
+\begin{document}
+\tableofcontents
+
+\section{Introduction}
+
+\subsection{From last session}
+
+In the previous session, I provided a brief explanation of persistent homology and, although it was somewhat unclear, I discussed the future outlook of my research. Since then, I have continued to study persistent homology, focusing particularly on its algebraic properties, but this knowledge is not directly relevant to today's content, so I will not touch on it today. In parallel, I have read several papers that explore the relationship between persistent homology and probability.
+
+\subsection{Today's topic}
+
+Today, I will introduce the results of Fasy's work\cite{confidence-sets-for-persistence-diagrams}, which is important for the probabilistic analysis of persistent homology. Next, I will explain the formulation of my research problem and compare its content with Fasy's work. Finally, I will explain the progress made on this research problem up to the present.
+
+Since some people might have forgotten the content of the previous session, I will start with a brief review of persistent homology.
+
+\section{Review on persistent homology}
+
+In this section, I will briefly explain the concept and definition of persistent homology introduced in the previous session. Next, I will introduce the distances used for analyzing persistent homology and an important theorem.
+
+\subsection{Brief overview on persistent homology}
+Persistent homology is a data analysis method that applies homology theory from mathematics. It involves extracting geometric information such as connected components, holes, and cavities from discrete sets obtained through experiments. If we only consider the homology of the discrete set as it is, we merely get the number of connected components, which corresponds to the number of data points. To obtain higher-order topological information, we construct complexes such as alpha complexes or $\check{\mathrm{C}}$ech complexes from the data.
+
+The resulting complexes form a sequence that changes over time, and by considering the homology of these complexes, we obtain homology that changes over time. By defining this more rigorously, we arrive at the following definition of persistent homology.
+
+\begin{dfn}
+  Let $\mathcal{K} = \left( K_r \right)_{r\in\mathbb{R}}$ be a filtration of a simplicial complex $K$. Then, for a positive integer $n$, the pair $\left( \left( H_n\left( K_r \right) \right)_{r\in\mathbb{R}}, \left( {\iota_{s, r}}_* \right)_{r\leq s} \right)$ consisting of the $n$-th homology groups and the induced linear maps from inclusion is called the persistent homology of $\mathcal{K}$ and is denoted by $H_n\left( \mathcal{K} \right)$.
+\end{dfn}
+
+Persistent homology corresponds one-to-one with a set called a persistent diagram.
+
+\begin{dfn}
+  For a filtration $\mathcal{K} = \left( K_r \right)_{r\in\mathbb{R}}$ of a complex $K$, the discrete set $\Gamma = \Set{\left( b_i, d_i \right) \mid b_i, d_i \in \bar{\mathbb{R}}, i = 1, \cdots, m}$ determined by the structure theorem of persistent homology is called the persistent diagram. Additionally, an element $\gamma = \left( b, d \right)$ of $\Gamma$ is called a birth-death pair, and $d - b$ is called the lifespan of $\gamma$.
+\end{dfn}
+
+\subsection{Measures of persistent homology}
+
+Let $\left( X, d \right)$ be a metric space, and for any point $x$ in $X$ and any subset $A$ of $X$, I denote the distance between $x$ and $A$ as follows:
+\begin{align*}
+  d\left( x, A \right) = \inf_{a \in A} d\left( x, a \right).
+\end{align*}
+the Hausdorff distance is a distance between two discrete sets on metric space.
+
+\begin{dfn}[Hausdorff distance]
+  For any subset $X_1$ and $X_2$ of $X$, the Hausdorff distance $d_H\left( X_1, X_2 \right)$ between $X_1$ and $X_2$ is defined as follows:
+  \begin{align*}
+    d_H\left( X_1, X_2 \right) = \max\Set{ \sup_{x\in X_1} d\left( x, X_2 \right), \sup_{x\in X_2} d\left( x, X_1 \right) }.
+  \end{align*}
+\end{dfn}
+
+For any discrete set $A$ and $r > 0$, if we denote the swelled set of $A$ as
+\begin{align*}
+  P_r \left( A \right) = \bigcup_{a \in A} B\left( a; r \right),
+\end{align*}
+then we can obtain an alternative expression for the Hausdorff distance:
+\begin{align*}
+  d_H\left( X_1, X_2 \right) = \inf \Set{ r > 0 | P_r\left( X_1 \right) \subset X_2,\ P_r\left( X_2 \right) \subset X_1 },
+\end{align*}
+where $X_1$ and $X_2$ are any subsets of $X$. Using this expression, the Hausdorff distance can be understood more intuitively and visually.
+
+To introduce the bottleneck distance, which measures the distance between persistent diagrams, we first define partial matching.
+
+\begin{dfn}
+  Let $D$ and $D^\prime$ be persistent diagrams.
+  \begin{description}
+    \item[(1)] A subset $M$ of $D \times D^\prime$ is said to be a partial matching between $D$ and $D^\prime$ if it satisfies the following conditions:
+          \begin{description}
+            \item[(A)] For any $q \in D$, there is at most one $q^\prime \in D^\prime$ such that $\left( q, q^\prime \right) \in M$.
+            \item[(B)] For any $q^\prime \in D^\prime$, there is at most one $q \in D$ such that $\left( q, q^\prime \right) \in M$.
+          \end{description}
+          In this context, the partial matching $M$ is denoted as $M : D^\prime \leftrightarrow D$. The elements of $M$ are called matched pairs, and the elements of $\left( D \sqcup D^\prime \right) \backslash M$ are called unmatched points.
+    \item[(2)] For a partial matching $M : D^\prime \leftrightarrow D$ between $D$ and $D^\prime$, the cost $c\left( M \right)$ is defined as follows:
+          \begin{align*}
+            c\left( M \right) = \max\left\{\sup_{\left( q, q^\prime \right) \in M} \|q - q^\prime\|_\infty, \ \sup_{\left( b, d \right)\in \left( D\sqcup D^\prime \right)\backslash M} \dfrac{\left| b - d \right|}{2}\right\}
+          \end{align*}
+  \end{description}
+\end{dfn}
+
+Following bottleneck distance can measure the difference between two persistent diagrams.
+
+\begin{dfn}[Bottleneck distance]
+  Let $D$ and $D^\prime$ be persistent diagrams that do not include birth-death pairs with a death time of $\infty$. Let $\mathcal{M}$ be the set of all partial matchings between $D$ and $D^\prime$, and let $c$ be the cost function of a partial matching. Then, the bottleneck distance $d_B$ is defined by
+  \begin{align*}
+    d_B\left( D, D^\prime \right) = \inf_{M \in \mathcal{M}} c\left( M \right).
+  \end{align*}
+\end{dfn}
+
+\begin{thm}[Stability theorem]\label{thm:stability-theorem}
+  For any discrete sets $P$ and $P^\prime$ in metric space, the following holds:
+  \begin{align*}
+    d_B\left( \mathrm{PD} \left( P \right), \mathrm{PD} \left( P^\prime \right) \right) \leq d_H\left( P, P^\prime \right),
+  \end{align*}
+  where $\mathrm{PD} \left( P \right)$ and $\mathrm{PD} \left( P^\prime \right)$ are the persistent diagrams of $P$ and $P^\prime$, respectively.
+\end{thm}
+
+\section{Research subject}
+
+In this section, I will discuss the probabilistic properties of persistent homology, which is the focus of my research interest. Before that, I will introduce the work of Fasy.
+
+\subsection{Related work: Confidence sets for persistence diagrams \cite{confidence-sets-for-persistence-diagrams}}
+
+\subsubsection{Main results}
+
+Let $\mathbb{M}$ be a $d$-dimensional compact manifold with no boundary, embedded in $\mathbb{R}^D$ and $\mathrm{reacth}\left( \mathbb{M} \right) > 0$. Also, let $P$ be a probability measure which is concentrated on or near $\mathbb{M}$, and let $X_1, \cdots, X_n$ be independent and identically distributed random variable drawn from $P$. At this time, let us define the following quantities:
+\begin{align}
+  \lambda\left( x, t \right) = \dfrac{ P\left( B\left( x, t / 2 \right) \right) }{ t^d },\quad \lambda_{\inf}\left( t \right) = \inf_{x\in\mathbb{M}} \lambda\left( x,t \right), \label{eq:definition-of-lamda}
+\end{align}
+where $B\left( x,r \right)$ is a open ball on $\mathbb{M}$ defined as follows:
+\begin{align*}
+  B\left( x, r \right) = \Set{ y\in\mathbb{M} | \left\| x - y \right\| < r	}.
+\end{align*}
+Assume that $\lambda\left( x, t \right)$ is a continuous function of $t$, and I define
+\begin{align*}
+  \Lambda = \lim_{t \to 0} \lambda_{\inf} \left( t \right).
+\end{align*}
+Also, assume that for each $x \in \mathbb{M}$, $\lambda\left( x, t \right)$ is a bounded continuous function of $t$, differentiable for $t \in \left( 0, t_0 \right)$ and right differentiable at zero. Moreover, partial derivative $\dfrac{\partial \lambda}{\partial t} \left( x, t \right)$ exists and is bounded away from zero and infinity for $t$ in an open neighborhood of zero, and for some $t_0 > 0$ and some $C_1$ and $C_2$, We have
+\begin{align}
+  \sup_{x} \sup_{0\leq t\leq t_0} \left| \dfrac{\partial \lambda}{\partial t} \left( x, t \right) \right| \leq C_1 < \infty,\quad \sup_{0\leq t \leq t_0} \left| \dfrac{d \lambda_{\inf}}{dt} \left( t \right) \right| \leq C_2 < \infty. \label{eq:assumption-of-lambda}
+\end{align}
+
+Let $\mathcal{S}_n = \Set{X_1, \cdots, X_n}$ be the set of $n$-size sample points obtained from $\mathbb{M}$ according to $P$, let $\mathcal{P}$ be the persistent diagram of $\mathbb{M}$, and let $\hat{\mathcal{P}}$ be the persistent diagram of $\mathcal{S}$. At this time, for a given $\alpha \in \left( 0, 1 \right)$ and a positive integer $n$, if there exists a real number $c_n$ such that
+\begin{align*}
+  \limsup_{n\to\infty} \mathbb{P} \left[ d_B \left( \hat{\mathcal{P}}, \mathcal{P} \right) > c_n \right] \leq \alpha
+\end{align*}
+then, it follows that $C_n = \left[ 0, c_n \right]$ is an asymptotic $1 - \alpha$ confidence set for the bottleneck distance $d_B \left( \hat{\mathcal{P}}, \mathcal{P} \right)$, that is,
+\begin{align*}
+  \limsup_{n\to\infty} \mathbb{P} \left[ d_B \left( \hat{\mathcal{P}}, \mathcal{P} \right) \in \left[ 0, c_n \right] \right] \geq 1 - \alpha.
+\end{align*}
+Let $d_H$ be the Hausdorff distance, then the following holds.
+\begin{align*}
+  d_B \left( \hat{\mathcal{P}}, \mathcal{P} \right) \leq d_H\left( \mathcal{S}_n, \mathbb{M} \right).
+\end{align*}
+Hence, it suffices to find $c_n$ such that
+\begin{align*}
+  \limsup_{n\to\infty} \mathbb{P} \left[ d_H\left( \mathcal{S}_n, \mathbb{M} \right) > c_n \right] \leq \alpha.
+\end{align*}
+The confidence set $\mathcal{C}_n$ is a subset of all persistence diagrams whose distance to $\mathcal{P}$ is at most $c_n$,
+\begin{align*}
+  \mathcal{C}_n = \Set{ \tilde{\mathcal{P}} | d_B \left( \hat{\mathcal{P}}, \tilde{\mathcal{P}} \right) \leq c_n}.
+\end{align*}
+
+Fasy's paper \cite{confidence-sets-for-persistence-diagrams} proves the four methods to obtain a confidence set for persistent homology under appropriate conditions, such as subsampling, concentration of measure,  method of shells, and density estimation.
+
+\subsection{Details of four methods}
+
+First, we will prove the following lemma, which is useful for evaluating the Hausdorff distance. Note that, for any set $A$, $\delta$-covering of $A$ is a set of Euclidean balls of radius $\delta$, which can cover the set $A$, and $\delta$-packing of $A$ is a set of the form $B\left( x, \delta \right) \cap \mathbb{M}$, where $x \in \mathbb{M}$, that can be packed into $\mathbb{M}$ without overlap.
+
+\begin{lem}\label{lem:Fasy-lemma4}
+  For all $t > 0$, following inequality holds:
+  \begin{align*}
+    \mathbb{P} \left[ d_H \left( \mathcal{S}_n, \mathbb{M} \right) > t \right] \leq \dfrac{ 2^d }{ \lambda \left( t / 2 \right) t^d } \exp \left( -n \lambda_{\inf} \left( t \right) t^d \right).
+  \end{align*}
+\end{lem}
+
+Let $\mathcal{C} = \Set{ c_1, \cdots, c_N }$ be the set of centers of Euclidean balls $\Set{ B_1, \cdots, B_N }$, forming a minimal $t/2$-covering for $\mathbb{M}$, for $t / 2 < \mathrm{diam}\left( \mathbb{M} \right)$. Then we can obtain $d_H\left( \mathcal{C}, \mathbb{M} \right)$, and following inequality holds:
+\begin{align*}
+  \mathbb{P} \left[ d_H\left( \mathcal{S}_n, \mathbb{M} > t \right) \right]
+   & \leq \mathbb{P} \left[ d_H\left( \mathcal{S}_n, \mathcal{C} \right) + d_H\left( \mathcal{C}, \mathbb{M} \right) > t \right] \\
+   & \leq \mathbb{P} \left[ d_H\left( \mathcal{S}_n, \mathcal{C} \right) > \dfrac{t}{2} \right].
+\end{align*}
+Since the event $d_H\left( \mathcal{S}_n, \mathcal{C} \right) > \dfrac{t}{2}$ holds if and only if there exists $1\leq j\leq N$ such that $B_j\cap \mathcal{S}_n = \emptyset$,
+\begin{align*}
+  \mathbb{P} \left[ d_H\left( \mathcal{S}_n, \mathbb{M} > t \right) \right] & \leq \sum_{j = 1}^N \mathbb{P} \left[ B_j\cap \mathcal{S}_n = \emptyset \right] \\
+                                                                            & = \sum_{j = 1}^N \left[ 1 - P\left( B_j \right) \right]^n.
+\end{align*}
+By the definition (\ref{eq:definition-of-lamda}), for any $1\leq j\leq N$ following inequality holds:
+\begin{align*}
+  \lambda_{\inf} \left( t \right) t^d \leq P\left( B_j \right) \leq 1
+\end{align*}
+Hence, we have
+\begin{align*}
+  \mathbb{P} \left[ d_H\left( \mathcal{S}_n, \mathbb{M} > t \right) \right] & \leq N \left[ 1 - \lambda_{\inf} \left( t \right) t^d \right] \leq N \exp \left( -n \lambda_{\inf} \left( t \right) t^d \right).
+\end{align*}
+
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{section}{References}
+
+\begin{thebibliography}{99}
+  \bibitem{confidence-sets-for-persistence-diagrams} Fasy, B. T., Lecci, F., Rinaldo, A., Wasserman, L., Balakrishnan, S., \& Singh, A. (2012). Confidence Sets for Persistence Diagrams. Ann. Statist, 42(8), 2301 - 2339. \url{https://projecteuclid.org/journals/annals-of-statistics/volume-42/issue-6/Confidence-sets-for-persistence-diagrams/10.1214/14-AOS1252.full}
+
+  \bibitem{wikipedia-hausdorff-distance} Hausdorff Distance. (Last modified in 2024, March 14). Wikipedia. \url{https://en.wikipedia.org/wiki/Hausdorff_distance}
+
+  \bibitem{grundzuge-der-mengenlefre} Felix, H. (2014). Grundz\"{u}ge Der Mengenlehre. Leipzig: Verlag von Veit \& Comp. \url{https://archive.org/details/grundzgedermen00hausuoft/mode/2up}
+
+  \bibitem{位相的データ解析から構造発見へ} 池祐一, Escolar, G. E., 一平大林, \& 鍛冶静雄. (2023). 位相的データ解析から構造発見へ. サイエンス社.
+\end{thebibliography}
+
+\end{document}
