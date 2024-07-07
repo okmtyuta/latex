@@ -12,7 +12,7 @@
 \renewcommand{\contentsname}{Table of contents}
 \renewcommand{\refname}{References}
 
-\usepackage{_shared,_proof_env_report}
+\usepackage{_shared, _proof_env}
 
 \hypersetup{
   setpagesize=false,
@@ -22,4 +22,11 @@
   allcolors=ublue,
 }
 
-\newcommand{\alert}[1]{{\color{ured}#1}}
+\fancypagestyle{style}{
+  \lhead{\@title}
+  \rhead{\oldstylenums{\thepage/\protect\pageref*{LastPage}}}
+  \cfoot{}
+  \lfoot{\@author, \@date}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
+\pagestyle{style}
