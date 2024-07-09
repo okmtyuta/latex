@@ -1,0 +1,154 @@
+\ProvidesPackage{slide} 
+
+\usepackage{
+  bxdpx-beamer, pxjahyper, minijs,
+  mathtools, multicol, graphicx,
+  ifthen, xparse, kvoptions, listings
+}
+
+\definecolor{ured}{RGB}{255, 75, 0}
+\definecolor{ublue}{RGB}{0, 90, 255}
+\definecolor{ugreen}{RGB}{3, 175, 122}
+\definecolor{ucyan}{RGB}{77, 196, 255}
+\definecolor{uorange}{RGB}{246, 170, 0}
+\definecolor{uyellow}{RGB}{255, 241, 0}
+\definecolor{ublack}{RGB}{0, 0, 0}
+\definecolor{_listings_background}{RGB}{245,242,240}
+\definecolor{_listings_string}{RGB}{102,153,0}
+\definecolor{_listings_keyword}{RGB}{0,119,170}
+\definecolor{_listings_variables}{RGB}{238,153,0}
+\definecolor{_listings_comment}{RGB}{153,0,85}
+\definecolor{_listings_identifier}{RGB}{221,74,104}
+\lstdefinestyle{style}{
+  backgroundcolor=\color{_listings_background},
+  commentstyle=\color{_listings_comment},
+  keywordstyle=\color{_listings_keyword},
+  numberstyle=\color{_listings_variables},
+  stringstyle=\color{_listings_string},
+  identifierstyle=\color{_listings_identifier},
+  basicstyle=\ttfamily\footnotesize,
+  breakatwhitespace=false,
+  breaklines=true,  
+  captionpos=b,  
+  keepspaces=true,  
+  numbers=left,  
+  numbersep=7pt,
+  showspaces=false, 
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  xleftmargin=0.5cm,
+  xrightmargin=0.5cm,
+  framexleftmargin=0.6cm,
+  framexrightmargin=0.6cm
+}
+\lstset{style=style}
+
+\hypersetup{
+    colorlinks=true,
+    citecolor=ublue,
+    linkcolor=ublue,
+    urlcolor=ublue,
+}
+
+\setbeamertemplate{theorems}[numbered]
+\renewcommand{\kanjifamilydefault}{\gtdefault}
+
+\usetheme{Boadilla}
+\usefonttheme[onlymath]{serif}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{}
+\setbeamertemplate{blocks}[rounded]
+\setbeamertemplate{itemize items}[circle]
+\setbeamerfont{frametitle}{size=\large}
+\setbeamercolor{structure}{fg=ublue}
+\setbeamercolor{alerted text}{fg=ured}
+\setbeamercolor{example text}{fg=ugreen}
+
+\setbeamertemplate{frametitle}{
+  \ifthenelse{\value{subsection} = 0}{
+    \vspace{3mm}\thesection. \insertframetitle
+  }{
+    \vspace{3mm}\thesection.\thesubsection. \insertframetitle
+  }
+}
+
+\NewDocumentCommand\framesection{s m}{
+  {
+    \IfBooleanF{#1}{\stepcounter{section}\frametitle{#2}}
+    \IfBooleanT{#1}{\frametitle{#2}}
+  }
+}
+\NewDocumentCommand\framesubsection{s m}{
+  {
+    \IfBooleanF{#1}{\stepcounter{subsection}\frametitle{#2}}
+    \IfBooleanT{#1}{\frametitle{#2}}
+  }
+}
+
+
+\renewcommand{\baselinestretch}{1.3}
+
+\DeclareStringOption[]{footer}
+\setbeamertemplate{footline}[text line]{
+  \parbox{0.8\linewidth}{
+    \begin{flushleft}
+      \slide@footer
+    \end{flushleft}
+  }
+
+  \parbox{0.2\linewidth}{
+    \begin{flushright}
+      \insertframenumber/\inserttotalframenumber
+    \end{flushright}
+  }
+}
+
+\ProcessKeyvalOptions{footer}
+
+%%% Proof Environments %%%
+
+\theoremstyle{definition}
+\newtheorem{dfn}{Def}[section]
+
+\newtheorem{ans}[dfn]{Ans}
+\newtheorem{cor}[dfn]{Cor}
+\newtheorem{eg}[dfn]{e.g.}
+\newtheorem{ex}[dfn]{Exercise}
+\newtheorem{fact}[dfn]{Fact}
+\newtheorem{lem}[dfn]{Lem}
+\newtheorem{memo}[dfn]{Memo}
+\newtheorem{prop}[dfn]{Prop}
+\newtheorem{que}[dfn]{Question}
+\newtheorem{rem}[dfn]{Rem}
+\newtheorem{thm}[dfn]{Thm}
+\newtheorem{axi}[dfn]{Axiom}
+
+\newtheorem*{dfn*}{Def}
+\newtheorem*{cor*}{Cor}
+\newtheorem*{eg*}{e.g.}
+\newtheorem*{ex*}{Exercise}
+\newtheorem*{fact*}{Fact}
+\newtheorem*{lem*}{Lem}
+\newtheorem*{memo*}{Memo}
+\newtheorem*{prop*}{Prop}
+\newtheorem*{que*}{Question}
+\newtheorem*{rem*}{Rem}
+\newtheorem*{thm*}{Thm}
+\newtheorem*{ans*}{Ans}
+\newtheorem*{ref*}{Ref}
+\newtheorem*{axi*}{Axiom}
+
+\newcommand{\dfnref}[1]{\textbf{Def \ref{#1}}}
+\newcommand{\corref}[1]{\textbf{Cor \ref{#1}}}
+\newcommand{\egref}[1]{\textbf{Example \ref{#1}}}
+\newcommand{\exref}[1]{\textbf{Exercise \ref{#1}}}
+\newcommand{\factref}[1]{\textbf{Fact \ref{#1}}}
+\newcommand{\lemref}[1]{\textbf{Lem \ref{#1}}}
+\newcommand{\memoref}[1]{\textbf{Memo \ref{#1}}}
+\newcommand{\propref}[1]{\textbf{Prop \ref{#1}}}
+\newcommand{\queref}[1]{\textbf{Question \ref{#1}}}
+\newcommand{\remref}[1]{\textbf{Rem \ref{#1}}}
+\newcommand{\thmref}[1]{\textbf{Thm \ref{#1}}}
+\newcommand{\equref}[1]{\textbf{Eq \ref{#1}}}
+\newcommand{\axiref}[1]{\textbf{Axiom \ref{#1}}}

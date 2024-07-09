@@ -5,8 +5,24 @@
 \author{OKAMOTO Yuta}
 \date{\today}
 
+\fancypagestyle{plain}{
+  \lhead{\@title}
+  \rhead{\oldstylenums{\thepage/\protect\pageref*{LastPage}}}
+  \cfoot{}
+  \lfoot{\@author, \@date}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
+\fancypagestyle{style}{
+  \lhead{\@title}
+  \rhead{\oldstylenums{\thepage/\protect\pageref*{LastPage}}}
+  \cfoot{}
+  \lfoot{\@author, \@date}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
+\pagestyle{style}
 
 \begin{document}
+\maketitle
 \tableofcontents
 
 \section{Introduction}
