@@ -1,54 +1,59 @@
-\documentclass[dvipdfmx,11pt,notheorems]{beamer}
+\documentclass[10.5pt, a4, dvipdfmx, landscape]{article}
 \usepackage{slide}
 
-\setkeys{slide}{footer={Division of Informatics, Graduate School of Informatics, Kyoto University}}
-
-\title{Example: Slide style}
-\author{OKAMOTO Yuta}
-\institute{Division of Informatics, Graduate School of Informatics, Kyoto University}
-\date{\today}
+\title{確率的に生成されたデータに対するパーシステントホモロジーの推定能力について}
 
 \begin{document}
 
-\begin{frame}
-  \titlepage
-\end{frame}
+\maketitle
+
+\sectionframe{ホモロジー群$H_n \left( K \right)$の構成について}
 
 \begin{frame}
-  \framesection{Mathematical}
-  Let $\left( C, \partial \right)$ be a chain complex, define the $k$-cycle $Z_k$ and $k$-boundary of $\left( C, \partial \right)$ by
+  \frametitle{sect}
+  ここで，$0 \leq i \leq k$に対して，写像$\varepsilon_i: \Delta^{k - 1} \to \Delta^k$を
   \begin{align*}
-    Z_k = \mathrm{Ker}\ \partial_k,\ B_k = \mathrm{Im}\ \partial_k.
+    \varepsilon_0 \left( x_1, \cdots, x_{k - 1} \right) & = \left( 1, x_1, \cdots, x_{k - 1} \right)                                               \\
+    \varepsilon_i \left( x_1, \cdots, x_{k - 1} \right) & = \left( x_1, \cdots, x_i, x_i, \cdots, x_{k - 1} \right) \quad \left( 0 < i < k \right) \\
+    \varepsilon_k \left( x_1, \cdots, x_{k - 1} \right) & = \left( x_1, \cdots, x_{k - 1}, 0 \right)
   \end{align*}
-  Then, we can define the $k$-th homology of $\left( C, \partial \right)$ as following definition.
+  により定義するとき，$\varepsilon_i$を$\varepsilon_i$上のAffine写像という。
+
   \begin{dfn}
-    The $k$-th homology $H_k$ of the chain complex $\left( C, \partial \right)$ is defined by the quote module
+    ここで，$0 \leq i \leq k$に対して，写像$\varepsilon_i: \Delta^{k - 1} \to \Delta^k$を
     \begin{align*}
-      H_k = Z_k / B_k.
+      \varepsilon_0 \left( x_1, \cdots, x_{k - 1} \right) & = \left( 1, x_1, \cdots, x_{k - 1} \right)                                               \\
+      \varepsilon_i \left( x_1, \cdots, x_{k - 1} \right) & = \left( x_1, \cdots, x_i, x_i, \cdots, x_{k - 1} \right) \quad \left( 0 < i < k \right) \\
+      \varepsilon_k \left( x_1, \cdots, x_{k - 1} \right) & = \left( x_1, \cdots, x_{k - 1}, 0 \right)
     \end{align*}
+    により定義するとき，$\varepsilon_i$を$\varepsilon_i$上のAffine写像という。
   \end{dfn}
 \end{frame}
 
-\begin{frame}[containsverbatim]
-  \framesection{Code block}
-
-  Bachelor's degree. Department of Mathematics, Faculty of Science, University of Tokyo : 2020 April - 2024 March.
-
-  \lstinputlisting[language=python]{example.py}
-\end{frame}
-
 \begin{frame}
-  \framesection{Two column}
-  \begin{columns}[c]
-    \begin{column}{0.6\textwidth}
-      During my undergraduate years, I majored in mathematical physics. Specifically, I focused on formulating quantum mechanics using operators on Hilbert spaces, based on John von Neumann's ``Mathematical Foundations of Quantum Mechanics.''
-    \end{column}
-    \begin{column}{0.4\textwidth}
-      \begin{center}
-        \includegraphics[width=0.8\columnwidth]{global_okmtyuta.png}
-      \end{center}
-    \end{column}
-  \end{columns}
+  $0 \leq i \leq k$に対して，写像$\varepsilon_i: \Delta^{k - 1} \to \Delta^k$を
+  \begin{align*}
+    \varepsilon_0 \left( x_1, \cdots, x_{k - 1} \right) & = \left( 1, x_1, \cdots, x_{k - 1} \right)                                               \\
+    \varepsilon_i \left( x_1, \cdots, x_{k - 1} \right) & = \left( x_1, \cdots, x_i, x_i, \cdots, x_{k - 1} \right) \quad \left( 0 < i < k \right) \\
+    \varepsilon_k \left( x_1, \cdots, x_{k - 1} \right) & = \left( x_1, \cdots, x_{k - 1}, 0 \right)
+  \end{align*}
+  により定義するとき，により定義するとき，により定義するとき，により定義するとき，により定義するとき，により定義するとき，により定義するとき，により定義するとき，により定義するとき，により定義するとき，$\varepsilon_i$を$\varepsilon_i$上のAffine写像という\cite{tst}。
+  Afra Zomorodian and Gunnar Carlsson. Computing persistent homol-
+  ogy. In Proceedings of the twentieth annual symposium on Computa-
+  tional geometry, pages 347-356, 2004
+  \begin{itemize}
+    \item Afra Zomorodian and Gunnar Carlsson. Computing persistent homol-
+          ogy. In Proceedings of the twentieth annual symposium on Computa-
+          tional geometry, pages 347-356, 2004
+    \item 特定の処理をしたデータのホモロジー群を考えることにより，データに潜む幾何学的特徴を抽出する。
+    \item 構造定理\cite{zomorodian2004computing}と安定性定理\cite{cohen2005stability}という二つの強力な数学的背景により，データ解析技術としての信頼性を担保している。
+    \item 材料科学\cite{nakamura2015persistent}\cite{hiraoka2016hierarchical}や画像解析\cite{tanabe2021homological}，グラフ理論\cite{chan2013topology}など幅広い研究分野で応用されている。
+  \end{itemize}
 \end{frame}
+
+\begin{referenceframe}
+  \bibliographystyle{unsrt}
+  \bibliography{papers}
+\end{referenceframe}
 
 \end{document}
